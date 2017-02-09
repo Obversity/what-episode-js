@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import handleErrors from './HandleErrors';
+import handleErrors, { handleUnauthorized } from './HandleErrors';
 
 const style = {
   cancel: {
@@ -18,6 +18,11 @@ const style = {
 }
 
 const QuestionForm = React.createClass({
+
+  contextTypes: {
+    token: React.PropTypes.string,
+    alert: React.PropTypes.func,
+  },
 
   getInitialState(){
     return {
@@ -52,12 +57,14 @@ const QuestionForm = React.createClass({
         question: {
           episode_id: this.props.episode.id,
           event: this.state.event,
-        }
+        },
+        token: this.context.token,
       })
     })
     .then(handleErrors)
     .then(response => response.json())
     .then(response => callback(response.question))
+    .catch(handleUnauthorized.bind(this))
   },
 
   updateEventText(event, text){

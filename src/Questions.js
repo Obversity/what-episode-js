@@ -13,7 +13,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import FlagIcon from 'material-ui/svg-icons/content/flag';
-import handleErrors from './HandleErrors';
+import handleErrors, { handleUnauthorized } from './HandleErrors';
 
 const style = {
   seasonSelect: {
@@ -44,6 +44,12 @@ const style = {
 
 var Questions = React.createClass({
 
+  contextTypes: {
+    signedIn: React.PropTypes.bool,
+    token: React.PropTypes.string,
+    alert: React.PropTypes.func,
+  },
+
   getInitialState: function(){
     return {
       currentSeason: null,
@@ -61,11 +67,15 @@ var Questions = React.createClass({
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify({
+        token: this.context.token
+      })
     })
     .then(handleErrors)
     .then(response => response.json())
     .then(response => this.setState({ questionSuccessfullyFlagged: true }))
+    .catch(handleUnauthorized.bind(this))
   },
 
   editCurrentQuestion: function(question){
@@ -203,7 +213,37 @@ var Questions = React.createClass({
   render: function(){
     let nextQuestionExists = this.getNextQuestion()
     let previousQuestionExists = this.getNextQuestion(-1)
-    let showMenue = !this.state.creatingQuestion;
+
+    let menuItems = []
+
+    let addQuestionButton =  (
+      <MenuItem primaryText="Add question"
+        leftIcon={<AddIcon />}
+        key="add"
+        onTouchTap={this.startCreatingQuestion}/>
+    )
+
+    let editQuestionButton = (
+      <MenuItem primaryText="Edit question"
+                leftIcon={<ModeEditIcon />}
+                key="edit"
+                onTouchTap={this.startEditingQuestion}/>
+    )
+
+    let reportQuestionButton = (
+      <MenuItem primaryText="Report question"
+                leftIcon={<FlagIcon />}
+                key="report"
+                onTouchTap={this.flagQuestion}/>
+    )
+
+    if(this.context.signedIn) menuItems.push(addQuestionButton)
+    if(this.context.signedIn && this.state.currentQuestion) menuItems.push(editQuestionButton)
+    if(this.state.currentQuestion) menuItems.push(reportQuestionButton)
+
+    let showMenue = !this.state.creatingQuestion &&
+                    !this.state.editingQuestion &&
+                    menuItems.length > 0
 
     return (
       <div style={style.questions}>
@@ -214,20 +254,7 @@ var Questions = React.createClass({
             targetOrigin={{horizontal: 'right', vertical: 'top'}}
             style={style.settingsButton}
           >
-            <MenuItem primaryText="Add question"
-                      leftIcon={<AddIcon />}
-                      onTouchTap={this.startCreatingQuestion}/>
-            {this.state.currentQuestion &&
-              <MenuItem primaryText="Edit question"
-                        leftIcon={<ModeEditIcon />}
-                        onTouchTap={this.startEditingQuestion}/>
-            }
-            {
-              this.state.currentQuestion &&
-              <MenuItem primaryText="Report question"
-                        leftIcon={<FlagIcon />}
-                        onTouchTap={this.flagQuestion}/>
-            }
+            {menuItems}
           </IconMenu>
         }
         <div style={style.episodeTitle}>
