@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Snackbar from 'material-ui/Snackbar';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import EpisodeFinder from './EpisodeFinder';
 import LoginButton from './LoginButton'
 import './App.css'
@@ -34,23 +36,50 @@ injectTapEventPlugin();
 
 class App extends Component {
 
+  static childContextTypes = {
+    signedIn: React.PropTypes.bool,
+    token: React.PropTypes.string,
+    alert: React.PropTypes.func
+  }
+
   constructor(props){
     super(props)
     this.state = {
-      signedIn: false,
       flashMessageActive: false,
       flashMessage: "",
+      alertMessageActive: false,
+      alertMessage: "",
+      signedIn: false,
       token: null,
     }
     this.setSignedIn = this.setSignedIn.bind(this);
+    this.closeAlert  = this.closeAlert.bind(this);
+    this.alert       = this.alert.bind(this);
+    this.closeAlert  = this.closeAlert.bind(this);
+  }
+
+  alert(message){
+    this.setState({ alertMessage: message, alertMessageActive: true })
+  }
+
+  closeAlert(){
+    this.setState({ alertMessageActive: false })
+  }
+
+  getChildContext(){
+    return {
+      signedIn: this.state.signedIn,
+      token: this.state.token,
+      alert: this.alert,
+    }
   }
 
   setSignedIn(signedIn, token){
     this.setState({
-      signedIn: signedIn,
       flashMessageActive: true,
       flashMessage: "Successfully signed in",
-      token: token
+      signedIn: signedIn,
+      token: token,
     })
   }
 
@@ -70,6 +99,15 @@ class App extends Component {
            autoHideDuration={3000}
            onRequestClose={()=>this.setState({ flashMessageActive: false })}
           />
+          <Dialog
+            title="Alert"
+            modal={false}
+            actions={<FlatButton label="Ok" onTouchTap={this.closeAlert} />}
+            open={this.state.alertMessageActive}
+            onRequestClose={this.closeAlert}
+          >
+            {this.state.alertMessage}
+          </Dialog>
         </div>
       </MuiThemeProvider>
     );
