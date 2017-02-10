@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Dialog from 'material-ui/Dialog'
 import LinearProgress from 'material-ui/LinearProgress'
-import handleErrors from './HandleErrors'
+import { put } from './Ajax'
 
 const style = {
   button: {
@@ -59,20 +59,14 @@ const LoginButton = React.createClass({
 
   signIn(){
     this.setState({ signingIn: true })
-    fetch('http://localhost:3030/authenticate.json', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password,
-      })
-    })
-    .then(handleErrors)
+
+    let body = { username: this.state.username, password: this.state.password }
+    let url  = 'http://localhost:3030/authenticate.json'
+
+    put(url, body)
     .then(response => response.json())
     .then(response => {
-      this.props.setSignedIn(true, response.token)
+      this.props.setSignedIn(response.token)
       this.setState({ signingIn: false, modalOpen: false })
     })
     .catch(response => {
@@ -88,7 +82,7 @@ const LoginButton = React.createClass({
   },
 
   signOut(){
-    this.props.setSignedIn(false)
+    this.props.setSignedOut()
   },
 
   render(){

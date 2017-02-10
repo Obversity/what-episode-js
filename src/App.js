@@ -44,18 +44,21 @@ class App extends Component {
 
   constructor(props){
     super(props)
+    
+    let token = localStorage.getItem('authToken')
     this.state = {
       flashMessageActive: false,
       flashMessage: "",
       alertMessageActive: false,
       alertMessage: "",
-      signedIn: false,
-      token: null,
+      signedIn: !!token,
+      token: token,
     }
-    this.setSignedIn = this.setSignedIn.bind(this);
-    this.closeAlert  = this.closeAlert.bind(this);
-    this.alert       = this.alert.bind(this);
-    this.closeAlert  = this.closeAlert.bind(this);
+    this.setSignedIn  = this.setSignedIn.bind(this)
+    this.setSignedOut = this.setSignedOut.bind(this)
+    this.closeAlert   = this.closeAlert.bind(this)
+    this.alert        = this.alert.bind(this)
+    this.closeAlert   = this.closeAlert.bind(this)
   }
 
   alert(message){
@@ -74,12 +77,23 @@ class App extends Component {
     }
   }
 
-  setSignedIn(signedIn, token){
+  setSignedIn(token){
+    localStorage.setItem('authToken', token)
     this.setState({
       flashMessageActive: true,
       flashMessage: "Successfully signed in",
-      signedIn: signedIn,
+      signedIn: true,
       token: token,
+    })
+  }
+
+  setSignedOut(){
+    localStorage.removeItem('authToken')
+    this.setState({
+      flashMessageActive: true,
+      flashMessage: "Successfully signed out",
+      signedIn: false,
+      token: null,
     })
   }
 
@@ -92,7 +106,7 @@ class App extends Component {
       <MuiThemeProvider>
         <div>
           <EpisodeFinder />
-          <LoginButton signedIn={this.state.signedIn} setSignedIn={this.setSignedIn}/>
+          <LoginButton signedIn={this.state.signedIn} setSignedIn={this.setSignedIn} setSignedOut={this.setSignedOut}/>
           <Snackbar
            open={this.state.flashMessageActive}
            message={this.state.flashMessage}

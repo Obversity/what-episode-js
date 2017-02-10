@@ -1,13 +1,12 @@
 var React = require('react');
 import AutoComplete from 'material-ui/AutoComplete';
-import handleErrors from './HandleErrors'
+import { get } from './Ajax'
 
 var Search = React.createClass({
 
   findShows: function(searchText){
     this.props.setSearchStatus('searching')
-    fetch("http://localhost:3030/shows.json?search="+searchText)
-      .then(handleErrors)
+    get("http://localhost:3030/shows.json", { search: searchText })
       .then(response => response.json())
       .then(show => {
          this.props.setShow(show);

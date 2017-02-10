@@ -13,7 +13,8 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import FlagIcon from 'material-ui/svg-icons/content/flag';
-import handleErrors, { handleUnauthorized } from './HandleErrors';
+import { handleUnauthorized } from './HandleErrors';
+import { put, patch } from './Ajax';
 
 const style = {
   seasonSelect: {
@@ -62,17 +63,8 @@ var Questions = React.createClass({
   },
 
   flagQuestion: function(){
-    var url = `http://localhost:3030/episodes/${this.state.currentEpisode.id}/questions/${this.state.currentQuestion.id}/flag`
-    fetch(url, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        token: this.context.token
-      })
-    })
-    .then(handleErrors)
+    let url = `http://localhost:3030/episodes/${this.state.currentEpisode.id}/questions/${this.state.currentQuestion.id}/flag`
+    put(url, {}, this.context.token)
     .then(response => response.json())
     .then(response => this.setState({ questionSuccessfullyFlagged: true }))
     .catch(handleUnauthorized.bind(this))
@@ -197,17 +189,17 @@ var Questions = React.createClass({
     this.resetForEpisode(episode);
   },
 
-  // TODO: think about what we want to do when there few or no questions
-  // - what about when there are no questions for the first episode?
-  // - what about when there are questions for one episode but not the next
   componentWillMount: function(){
     let season = this.props.show.seasons[0];
     this.resetForSeason(season);
   },
 
   componentWillReceiveProps: function(nextProps){
-    let season = nextProps.show.seasons[0];
-    this.resetForSeason(season);
+    let newShow = this.props.show.id != nextProps.show.id
+    if(newShow) {
+      let season = nextProps.show.seasons[0];
+      this.resetForSeason(season);
+    }
   },
 
   render: function(){

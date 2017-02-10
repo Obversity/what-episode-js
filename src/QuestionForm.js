@@ -1,7 +1,8 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import handleErrors, { handleUnauthorized } from './HandleErrors';
+import { handleUnauthorized } from './HandleErrors';
+import { post, patch } from './Ajax';
 
 const style = {
   cancel: {
@@ -35,6 +36,12 @@ const QuestionForm = React.createClass({
   },
 
   createOrSaveQuestion(){
+    let body = {
+      question: {
+        episode_id: this.props.episode.id,
+        event: this.state.event,
+      }
+    }
     // determine whether in edit mode or create mode
     let url = this.props.question
       ? `http://localhost:3030/episodes/${this.props.episode.id}/questions/${this.props.question.id}`
@@ -44,24 +51,11 @@ const QuestionForm = React.createClass({
       ? this.props.editCurrentQuestion
       : this.props.addAndSetCurrentQuestion
 
-    let method = this.props.question
-      ? 'PATCH'
-      : 'POST'
+    let fetchMethod = this.props.question
+      ? patch
+      : post
 
-    fetch(url, {
-      method: method,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        question: {
-          episode_id: this.props.episode.id,
-          event: this.state.event,
-        },
-        token: this.context.token,
-      })
-    })
-    .then(handleErrors)
+    fetchMethod(url, body, this.context.token)
     .then(response => response.json())
     .then(response => callback(response.question))
     .catch(handleUnauthorized.bind(this))

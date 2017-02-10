@@ -2,7 +2,7 @@ import React from 'react';
 import Search from './Search';
 import Questions from './Questions';
 import CircularProgress from 'material-ui/CircularProgress';
-import handleErrors from './HandleErrors';
+import { get } from './Ajax';
 
 class EpisodeFinder extends React.Component {
   constructor(){
@@ -25,8 +25,7 @@ class EpisodeFinder extends React.Component {
   }
 
   componentDidMount(){
-    fetch('http://localhost:3030/shows_list.json')
-      .then(handleErrors)
+    get('http://localhost:3030/shows_list.json')
       .then(response => response.json())
       .then(shows => this.setState({ shows, showsLoaded: true }))
       .catch(response => console.log(response))
