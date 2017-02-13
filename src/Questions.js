@@ -1,5 +1,4 @@
 import React from 'react';
-import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import SeasonSelect from './SeasonSelect';
 import EpisodeSelect from './EpisodeSelect';
@@ -14,7 +13,7 @@ import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import FlagIcon from 'material-ui/svg-icons/content/flag';
 import { handleUnauthorized } from './HandleErrors';
-import { put, patch } from './Ajax';
+import { put } from './Ajax';
 
 const style = {
   seasonSelect: {
@@ -195,7 +194,7 @@ var Questions = React.createClass({
   },
 
   componentWillReceiveProps: function(nextProps){
-    let newShow = this.props.show.id != nextProps.show.id
+    let newShow = this.props.show.id !== nextProps.show.id
     if(newShow) {
       let season = nextProps.show.seasons[0];
       this.resetForSeason(season);
