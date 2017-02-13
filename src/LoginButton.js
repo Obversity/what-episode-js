@@ -61,9 +61,8 @@ const LoginButton = React.createClass({
     this.setState({ signingIn: true })
 
     let body = { username: this.state.username, password: this.state.password }
-    let url  = 'http://localhost:3030/authenticate.json'
 
-    put(url, body)
+    put('authenticate.json', body)
     .then(response => response.json())
     .then(response => {
       this.props.setSignedIn(response.token)

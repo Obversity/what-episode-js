@@ -62,7 +62,7 @@ var Questions = React.createClass({
   },
 
   flagQuestion: function(){
-    let url = `http://localhost:3030/episodes/${this.state.currentEpisode.id}/questions/${this.state.currentQuestion.id}/flag`
+    let url = `episodes/${this.state.currentEpisode.id}/questions/${this.state.currentQuestion.id}/flag`
     put(url, {}, this.context.token)
     .then(response => response.json())
     .then(response => this.setState({ questionSuccessfullyFlagged: true }))
@@ -179,12 +179,12 @@ var Questions = React.createClass({
   },
 
   setCurrentSeason: function(event, key, id){
-    let season = this.props.show.seasons.find(season => season.id === parseInt(id));
+    let season = this.props.show.seasons.find(season => season.id === parseInt(id, 10));
     this.resetForSeason(season);
   },
 
   setCurrentEpisode: function(event, key, id){
-    let episode = this.state.currentSeason.episodes.find(episode => episode.id === parseInt(id));
+    let episode = this.state.currentSeason.episodes.find(episode => episode.id === parseInt(id, 10));
     this.resetForEpisode(episode);
   },
 

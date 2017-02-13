@@ -25,7 +25,7 @@ class EpisodeFinder extends React.Component {
   }
 
   componentDidMount(){
-    get('http://localhost:3030/shows_list.json')
+    get('shows_list.json')
       .then(response => response.json())
       .then(shows => this.setState({ shows, showsLoaded: true }))
       .catch(response => console.log(response))

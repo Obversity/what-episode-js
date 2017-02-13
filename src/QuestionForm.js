@@ -44,8 +44,8 @@ const QuestionForm = React.createClass({
     }
     // determine whether in edit mode or create mode
     let url = this.props.question
-      ? `http://localhost:3030/episodes/${this.props.episode.id}/questions/${this.props.question.id}`
-      : `http://localhost:3030/episodes/${this.props.episode.id}/questions`
+      ? `episodes/${this.props.episode.id}/questions/${this.props.question.id}`
+      : `episodes/${this.props.episode.id}/questions`
 
     let callback = this.props.question
       ? this.props.editCurrentQuestion

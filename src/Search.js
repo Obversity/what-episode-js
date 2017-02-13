@@ -6,7 +6,7 @@ var Search = React.createClass({
 
   findShows: function(searchText){
     this.props.setSearchStatus('searching')
-    get("http://localhost:3030/shows.json", { search: searchText })
+    get('shows.json', { search: searchText })
       .then(response => response.json())
       .then(show => {
          this.props.setShow(show);

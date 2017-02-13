@@ -5,10 +5,13 @@ import handleErrors from './HandleErrors';
 //  to the 'fetch' api
 //
 
-function doFetch(url, method, body, token = null){
+const host = process.env.PUBLIC_URL
+
+function doFetch(path, method, body, token = null){
   let headers = { 'Content-Type': 'application/json' }
   if(token) headers['Authorization'] = 'Bearer ' + token
   let fetchArgs = { method, headers }
+  let url = host + '/' + path
 
   if(method === 'GET'){
     url = url + '?' + urlEncodeObject(body)
@@ -26,8 +29,8 @@ function urlEncodeObject(object){
   }).join('&')
 }
 
-export const put    = (url, body={}, token=null) => doFetch(url, 'PUT', body, token);
-export const del    = (url, body={}, token=null) => doFetch(url, 'DELETE', body, token);
-export const patch  = (url, body={}, token=null) => doFetch(url, 'PATCH', body, token);
-export const get    = (url, body={}, token=null) => doFetch(url, 'GET', body, token);
-export const post   = (url, body={}, token=null) => doFetch(url, 'POST', body, token);
+export const put    = (path, body={}, token=null) => doFetch(path, 'PUT', body, token);
+export const del    = (path, body={}, token=null) => doFetch(path, 'DELETE', body, token);
+export const patch  = (path, body={}, token=null) => doFetch(path, 'PATCH', body, token);
+export const get    = (path, body={}, token=null) => doFetch(path, 'GET', body, token);
+export const post   = (path, body={}, token=null) => doFetch(path, 'POST', body, token);
