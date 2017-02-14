@@ -4,6 +4,10 @@ import { get } from './Ajax'
 
 var Search = React.createClass({
 
+  contextTypes: {
+    alert: React.PropTypes.func,
+  },
+
   findShows: function(searchText){
     this.props.setSearchStatus('searching')
     get('shows.json', { search: searchText })
@@ -11,6 +15,10 @@ var Search = React.createClass({
       .then(show => {
          this.props.setShow(show);
          this.props.setSearchStatus('loaded');
+      })
+      .catch(response => {
+        this.context.alert("Something went wrong.");
+        this.props.setSearchStatus(null);
       })
   },
 
