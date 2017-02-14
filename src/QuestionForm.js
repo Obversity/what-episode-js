@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { handleUnauthorized } from './HandleErrors';
 import { post, patch } from './Ajax';
+import handleEnter from './HandleEnter';
 
 const style = {
   cancel: {
@@ -71,7 +72,7 @@ const QuestionForm = React.createClass({
         <p style={style.prompt}>
           Have you seen the bit where...
         </p>
-        <TextField autoFocus={true} onChange={this.updateEventText} hintText="Try to avoid spoilers" value={this.state.event}/>
+        <TextField autoFocus={true} onKeyUp={handleEnter(this.createOrSaveQuestion, this.cancel)} onChange={this.updateEventText} hintText="Try to avoid spoilers" value={this.state.event}/>
         <div>
           <RaisedButton style={style.cancel} label="Cancel" secondary={true} onClick={this.cancel} />
           <RaisedButton style={style.save} label="Save" primary={true} onClick={this.createOrSaveQuestion} />

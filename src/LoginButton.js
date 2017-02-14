@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField'
 import Dialog from 'material-ui/Dialog'
 import LinearProgress from 'material-ui/LinearProgress'
 import { put } from './Ajax'
+import handleEnter from './HandleEnter'
 
 const style = {
   button: {
@@ -104,8 +105,18 @@ const LoginButton = React.createClass({
         >
           {this.state.signingIn && <LinearProgress mode="indeterminate" style={style.progress} />}
           <div style={style.modalContent}>
-            <TextField hintText="Email or username" errorText={this.state.usernameError} onChange={(e, value) => this.setState({ username: value }) } style={style.input}/>
-            <TextField hintText="Password" errorText={this.state.passwordError} onChange={(e, value) => this.setState({ password: value }) } type="password" style={style.input} />
+            <TextField hintText="Email or username"
+                       onKeyUp={handleEnter(this.signIn, this.closeSignInModal)}
+                       autoFocus={true}
+                       errorText={this.state.usernameError}
+                       onChange={(e, value) => this.setState({ username: value }) }
+                       style={style.input}/>
+            <TextField hintText="Password"
+                       onKeyUp={handleEnter(this.signIn, this.closeSignInModal)}
+                       errorText={this.state.passwordError}
+                       onChange={(e, value) => this.setState({ password: value }) }
+                       type="password"
+                       style={style.input} />
             <div style={style.modalButtons}>
               <RaisedButton label="Sign in" primary={true} disabled={this.state.signingIn} onTouchTap={this.signIn} style={style.modalButton} />
               <RaisedButton label="Cancel" secondary={true} disabled={this.state.signingIn} onTouchTap={this.closeSignInModal} style={style.modalButton} />
