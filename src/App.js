@@ -8,19 +8,12 @@ import EpisodeFinder from './EpisodeFinder';
 import LoginButton from './LoginButton'
 import './App.css'
 
-//TODO:
-// - AUTHENTICATION
-//
 
 // TODO: think about what we want to do when there few or no questions
 // - what about when there are no questions for the first episode?
 // - what about when there are questions for one episode but not the next
 
 
-///MAYBE:
-// have an 'edit' mode for the question interface
-//
-//
 // MAYBE: Impement a 'question type' thing, so rather than it always being
 //  'have you seen the bit where..'
 // it could be
@@ -44,7 +37,7 @@ class App extends Component {
 
   constructor(props){
     super(props)
-    
+
     let token = localStorage.getItem('authToken')
     this.state = {
       flashMessageActive: false,
@@ -96,10 +89,6 @@ class App extends Component {
       token: null,
     })
   }
-
-  // TODO: work out some way so that all components have the ability to trigger a flash message using the below snackbar.
-  // It makes no sense to have a snackbar for each component that needs one.
-  // Same with an error dialog.
 
   render() {
     return (
