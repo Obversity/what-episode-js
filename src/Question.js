@@ -19,7 +19,7 @@ const style = {
   },
   previousQuestion: {
     position: "absolute",
-    left: -74,
+    left: -57,
     top: -25,
   },
   no: {
