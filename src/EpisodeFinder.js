@@ -40,14 +40,31 @@ class EpisodeFinder extends React.Component {
               setSearchStatus={this.setSearchStatus}/>
     )
 
+    let hasSeasons = this.state.show && this.state.show.seasons.length > 0
+
+    let showQuestions = this.state.showsLoaded &&
+                        this.state.show &&
+                        this.state.searchStatus === 'loaded' &&
+                        hasSeasons
+
+    let showNoData = this.state.showsLoaded &&
+                        this.state.show &&
+                        this.state.searchStatus === 'loaded' &&
+                        !hasSeasons
+
     return (
       <div className="episode-finder">
         {this.state.showsLoaded ?
           search
           : null
         }
-        {this.state.showsLoaded && this.state.show && this.state.searchStatus === 'loaded' &&
+        {showQuestions &&
           <Questions show={this.state.show}/>
+        }
+        {showNoData &&
+          <p>
+            No data for this show. Come back later!
+          </p>
         }
         {this.state.searchStatus === 'searching' &&
           <div style={{ position: 'relative' }}>
