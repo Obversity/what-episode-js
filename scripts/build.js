@@ -202,15 +202,6 @@ function build(previousSizeMap) {
         console.log();
       }
       console.log('The ' + chalk.cyan('build') + ' folder is ready to be deployed.');
-      console.log('You may also serve it locally with a static server:')
-      console.log();
-      if (useYarn) {
-        console.log('  ' + chalk.cyan('yarn') +  ' global add pushstate-server');
-      } else {
-        console.log('  ' + chalk.cyan('npm') +  ' install -g pushstate-server');
-      }
-      console.log('  ' + chalk.cyan('pushstate-server') + ' build');
-      console.log('  ' + chalk.cyan(openCommand) + ' http://localhost:9000');
       console.log();
     }
   });
