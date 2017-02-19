@@ -8,6 +8,7 @@ class EpisodeFinder extends React.Component {
   constructor(){
     super()
     this.state = {
+      shows: [],
       show: null,
       showsLoaded: false,
       searchStatus: null,
@@ -54,10 +55,7 @@ class EpisodeFinder extends React.Component {
 
     return (
       <div className="episode-finder">
-        {this.state.showsLoaded ?
-          search
-          : null
-        }
+        {search}
         {showQuestions &&
           <Questions show={this.state.show}/>
         }
