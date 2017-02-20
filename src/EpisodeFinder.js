@@ -56,27 +56,35 @@ class EpisodeFinder extends React.Component {
     return (
       <div className="episode-finder">
         {search}
-        {showQuestions &&
-          <Questions show={this.state.show}/>
-        }
-        {showNoData &&
-          <p>
-            No data for this show. Come back later!
-          </p>
-        }
-        {this.state.searchStatus === 'searching' &&
-          <div style={{ position: 'relative' }}>
-            <CircularProgress size={100}
-                              style={{ top: 40, marginLeft: '27%'}}/>
-          </div>
-         }
-        {this.state.searchStatus === 'not_found' &&
-          <p>
-            Show not found
-          </p>
-        }
+        <div style={style.questionsArea}>
+          {showQuestions &&
+            <Questions style={style.questions} show={this.state.show}/>
+          }
+          {showNoData &&
+            <p>
+              No data for this show. Come back later!
+            </p>
+          }
+          {this.state.searchStatus === 'searching' &&
+            <div style={{ position: 'relative' }}>
+              <CircularProgress size={100}
+                style={{ top: 40, marginLeft: '27%'}}/>
+            </div>
+          }
+          {this.state.searchStatus === 'not_found' &&
+            <p>
+              Show not found
+            </p>
+          }
+        </div>
       </div>
     );
+  }
+}
+
+let style = {
+  questionsArea: {
+    height: 250,
   }
 }
 

@@ -6,9 +6,11 @@ const handleErrors = function(response){
 }
 
 export function handleUnauthorized(response){
-  response.json().then(json =>{
-    this.context.alert(json.error)
-  })
+  if(response.status == 401){
+    response.json().then(json =>{
+      this.context.alert(json.error)
+    })
+  } else throw response
 }
 
 export default handleErrors;

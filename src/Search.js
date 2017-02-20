@@ -4,6 +4,12 @@ import { get } from './Ajax'
 
 var Search = React.createClass({
 
+  getInitialState(){
+    return {
+      searchText: ''
+    }
+  },
+
   contextTypes: {
     alert: React.PropTypes.func,
   },
@@ -13,12 +19,17 @@ var Search = React.createClass({
     get('shows.json', { search: searchText })
       .then(response => response.json())
       .then(show => {
-         this.props.setShow(show);
-         this.props.setSearchStatus('loaded');
+         this.props.setShow(show)
+         this.props.setSearchStatus('loaded')
+         this.setState({ searchText: show.title })
       })
       .catch(response => {
-        this.context.alert("Something went wrong.");
-        this.props.setSearchStatus(null);
+        if(response.status == 404){
+          this.props.setSearchStatus('not_found')
+        } else {
+          this.context.alert("Something went wrong.")
+          this.props.setSearchStatus(null)
+        }
       })
   },
 
@@ -31,6 +42,7 @@ var Search = React.createClass({
           maxSearchResults={5}
           dataSource={this.props.shows}
           onNewRequest={this.findShows}
+          searchText={this.state.searchText}
           autoFocus={true}
         />
       </div>

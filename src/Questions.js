@@ -3,7 +3,6 @@ import Snackbar from 'material-ui/Snackbar';
 import SeasonSelect from './SeasonSelect';
 import EpisodeSelect from './EpisodeSelect';
 import Question from './Question';
-import EmptyQuestion from './EmptyQuestion';
 import QuestionForm from './QuestionForm';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
@@ -33,6 +32,7 @@ const style = {
   },
   questions: {
     position: 'relative',
+    height: '100%',
   },
   settingsButton: {
     position: 'absolute',
@@ -253,25 +253,24 @@ var Questions = React.createClass({
             {this.state.currentEpisode.title}
           </p>
         </div>
-        {this.state.editingQuestion
-        ? <QuestionForm episode={this.state.currentEpisode}
-                        question={this.state.currentQuestion}
-                        cancel={this.cancelAddOrEdit}
-                        editCurrentQuestion={this.editCurrentQuestion}/>
-        : this.state.creatingQuestion
-        ? <QuestionForm episode={this.state.currentEpisode}
-                        cancel={this.cancelAddOrEdit}
-                        addAndSetCurrentQuestion={this.addAndSetCurrentQuestion} />
-        : this.state.currentQuestion
-        ? <Question question={this.state.currentQuestion}
-                    nextQuestion={this.nextQuestion}
-                    nextQuestionExists={nextQuestionExists}
-                    previousQuestion={this.previousQuestion}
-                    previousQuestionExists={previousQuestionExists}
-                    nextEpisode={this.nextEpisode}
-                    previousEpisode={this.previousEpisode}/>
-        : <EmptyQuestion/>}
-
+        <div>
+          {this.state.editingQuestion
+          ? <QuestionForm episode={this.state.currentEpisode}
+                          question={this.state.currentQuestion}
+                          cancel={this.cancelAddOrEdit}
+                          editCurrentQuestion={this.editCurrentQuestion}/>
+          : this.state.creatingQuestion
+          ? <QuestionForm episode={this.state.currentEpisode}
+                          cancel={this.cancelAddOrEdit}
+                          addAndSetCurrentQuestion={this.addAndSetCurrentQuestion} />
+          : <Question question={this.state.currentQuestion}
+                      nextQuestion={this.nextQuestion}
+                      nextQuestionExists={nextQuestionExists}
+                      previousQuestion={this.previousQuestion}
+                      previousQuestionExists={previousQuestionExists}
+                      nextEpisode={this.nextEpisode}
+                      previousEpisode={this.previousEpisode}/>}
+        </div>
         <div>
           <SeasonSelect style={style.seasonSelect}  seasons={this.props.show.seasons} currentSeason={this.state.currentSeason} setCurrentSeason={this.setCurrentSeason}/>
           <EpisodeSelect style={style.episodeSelect}  episodes={this.state.currentSeason.episodes} currentEpisode={this.state.currentEpisode} setCurrentEpisode={this.setCurrentEpisode}/>

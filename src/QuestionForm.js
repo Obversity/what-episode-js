@@ -28,12 +28,21 @@ const QuestionForm = React.createClass({
 
   getInitialState(){
     return {
+      validationError: '',
       event: this.props.question ? this.props.question.event : "",
     }
   },
 
   cancel(){
     this.props.cancel()
+  },
+
+  handleValidationError(response){
+    if(response.status == 400){
+      response.json().then(json =>{
+        this.setState({ validationError: json.errors[0] })
+      })
+    } else throw response
   },
 
   createOrSaveQuestion(){
@@ -60,6 +69,8 @@ const QuestionForm = React.createClass({
     .then(response => response.json())
     .then(response => callback(response.question))
     .catch(handleUnauthorized.bind(this))
+    .catch(this.handleValidationError)
+    .catch(response => this.context.alert("Something went wrong"))
   },
 
   updateEventText(event, text){
@@ -72,7 +83,15 @@ const QuestionForm = React.createClass({
         <p style={style.prompt}>
           Have you seen the bit where...
         </p>
-        <TextField autoFocus={true} onKeyUp={handleEnter(this.createOrSaveQuestion, this.cancel)} onChange={this.updateEventText} hintText="Try to avoid spoilers" value={this.state.event}/>
+        <TextField
+          autoFocus={true}
+          onKeyUp={handleEnter(this.createOrSaveQuestion, this.cancel)}
+          onChange={this.updateEventText}
+          hintText="Try to avoid spoilers"
+          value={this.state.event}
+          errorText={this.state.validationError}
+          multiLine={true}
+          rowsMax={3} />
         <div>
           <RaisedButton style={style.cancel} label="Cancel" secondary={true} onClick={this.cancel} />
           <RaisedButton style={style.save} label="Save" primary={true} onClick={this.createOrSaveQuestion} />

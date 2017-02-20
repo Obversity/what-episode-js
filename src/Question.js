@@ -15,12 +15,12 @@ const style = {
   nextQuestion: {
     position: "absolute",
     right: -50,
-    top: -25,
+    top: -10,
   },
   previousQuestion: {
     position: "absolute",
     left: -57,
-    top: -25,
+    top: -10,
   },
   no: {
     width: "47%",
@@ -38,6 +38,7 @@ const style = {
   },
   eventWrapper: {
     position: 'relative',
+    height: 75,
   },
 }
 
@@ -50,7 +51,10 @@ class Question extends React.Component {
         </p>
         <div style={style.eventWrapper}>
           <p style={style.event}>
-            {this.props.question.event}
+            {this.props.question
+              ? this.props.question.event
+              : 'There are no questions for this episode.'
+            }
           </p>
           <IconButton style={style.previousQuestion} tooltip="Previous Question" disabled={!this.props.previousQuestionExists} onClick={this.props.previousQuestion} >
             <KeyboardArrowLeft />
