@@ -85,7 +85,7 @@ const QuestionForm = React.createClass({
         </p>
         <TextField
           autoFocus={true}
-          onKeyUp={handleEnter(this.createOrSaveQuestion, this.cancel)}
+          onKeyDown={handleEnter(this.createOrSaveQuestion, this.cancel)}
           onChange={this.updateEventText}
           hintText="Try to avoid spoilers"
           value={this.state.event}
