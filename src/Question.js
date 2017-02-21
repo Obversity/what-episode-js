@@ -15,12 +15,12 @@ const style = {
   nextQuestion: {
     position: "absolute",
     right: -50,
-    top: -10,
+    top: 11,
   },
   previousQuestion: {
     position: "absolute",
     left: -57,
-    top: -10,
+    top: 11,
   },
   no: {
     width: "47%",
@@ -37,8 +37,12 @@ const style = {
     textAlign: 'center',
   },
   eventWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     position: 'relative',
-    height: 75,
+    height: 70,
+    marginBottom: 17,
   },
 }
 

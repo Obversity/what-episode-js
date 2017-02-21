@@ -84,7 +84,7 @@ class EpisodeFinder extends React.Component {
 
 let style = {
   questionsArea: {
-    height: 250,
+    height: 280,
   }
 }
 
