@@ -39,6 +39,9 @@ const style = {
     top: '-20px',
     right: '-15px',
   },
+  seasonEpisodeSelectors: {
+    marginTop: 10,
+  }
 }
 
 
@@ -271,7 +274,7 @@ var Questions = React.createClass({
                       nextEpisode={this.nextEpisode}
                       previousEpisode={this.previousEpisode}/>}
         </div>
-        <div>
+        <div style={style.seasonEpisodeSelectors}>
           <SeasonSelect style={style.seasonSelect}  seasons={this.props.show.seasons} currentSeason={this.state.currentSeason} setCurrentSeason={this.setCurrentSeason}/>
           <EpisodeSelect style={style.episodeSelect}  episodes={this.state.currentSeason.episodes} currentEpisode={this.state.currentEpisode} setCurrentEpisode={this.setCurrentEpisode}/>
         </div>
