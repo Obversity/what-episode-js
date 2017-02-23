@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import episodeFinderTheme from './Theme';
 import Snackbar from 'material-ui/Snackbar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -92,7 +94,7 @@ class App extends Component {
 
   render() {
     return (
-      <MuiThemeProvider>
+      <MuiThemeProvider muiTheme={getMuiTheme(episodeFinderTheme)}>
         <div>
           <EpisodeFinder />
           <LoginButton signedIn={this.state.signedIn} setSignedIn={this.setSignedIn} setSignedOut={this.setSignedOut}/>
