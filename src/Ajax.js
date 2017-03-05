@@ -5,7 +5,7 @@ import handleErrors from './HandleErrors';
 //  to the 'fetch' api
 //
 
-const host = process.env.PUBLIC_URL
+const host = process.env.API_URL
 
 function doFetch(path, method, body, token = null){
   let headers = { 'Content-Type': 'application/json' }

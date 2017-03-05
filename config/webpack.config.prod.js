@@ -34,9 +34,10 @@ var publicPath = ensureSlash(homepagePathname, true);
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
-var publicUrl = ensureSlash(homepagePathname, false);
+var publicUrl = "http://episodefinder.billjpearce.com";
+var apiUrl    = "http://api.episodefinder.billjpearce.com";
 // Get environment variables to inject into our app.
-var env = getClientEnvironment(publicUrl);
+var env = getClientEnvironment(publicUrl, apiUrl);
 
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
@@ -87,7 +88,7 @@ module.exports = {
       'react-native': 'react-native-web'
     }
   },
-  
+
   module: {
     // First, run the linter.
     // It's important to do this before Babel processes the JS.
@@ -130,7 +131,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         include: paths.appSrc,
         loader: 'babel',
-        
+
       },
       // The notation here is somewhat confusing.
       // "postcss" loader applies autoprefixer to our CSS.
@@ -165,7 +166,7 @@ module.exports = {
       }
     ]
   },
-  
+
   // We use PostCSS for autoprefixing only.
   postcss: function() {
     return [
