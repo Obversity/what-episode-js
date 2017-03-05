@@ -47,6 +47,8 @@ const LoginButton = React.createClass({
       modalOpen: false,
       passwordError: "",
       usernameError: "",
+      username: "",
+      password: "",
     }
   },
 
