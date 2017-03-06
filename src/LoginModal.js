@@ -44,7 +44,6 @@ const LoginButton = React.createClass({
 
   getInitialState(){
     return {
-      modalOpen: false,
       passwordError: "",
       usernameError: "",
       username: "",
@@ -52,12 +51,8 @@ const LoginButton = React.createClass({
     }
   },
 
-  openSignInModal(){
-    this.setState({ modalOpen: true })
-  },
-
   closeSignInModal(){
-    this.setState({ modalOpen: false, signingIn: false })
+    this.props.closeSignInModal()
   },
 
   signIn(){
@@ -69,7 +64,8 @@ const LoginButton = React.createClass({
     .then(response => response.json())
     .then(response => {
       this.props.setSignedIn(response.token)
-      this.setState({ signingIn: false, modalOpen: false })
+      this.setState({ signingIn: false })
+      this.closeSignInModal()
     })
     .catch(response => {
       response.json().then(json => {
@@ -83,24 +79,14 @@ const LoginButton = React.createClass({
     })
   },
 
-  signOut(){
-    this.props.setSignedOut()
-  },
-
   render(){
 
     return (
       <div>
-        {this.props.signedIn
-          ?
-          <FlatButton label="Sign out" onTouchTap={this.signOut} style={style.button}/>
-          :
-          <FlatButton label="Sign in" onTouchTap={this.openSignInModal} style={style.button}/>
-        }
         <Dialog
           title="Sign in"
           modal={false}
-          open={this.state.modalOpen}
+          open={this.props.modalOpen}
           onRequestClose={this.handleClose}
           autoScrollBodyContent={true}
           contentStyle={style.modal}

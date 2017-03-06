@@ -7,7 +7,8 @@ import Snackbar from 'material-ui/Snackbar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import EpisodeFinder from './EpisodeFinder';
-import LoginButton from './LoginButton'
+import LoginModal from './LoginModal'
+import GlobalMenu from './GlobalMenu'
 import './App.css'
 
 
@@ -48,12 +49,23 @@ class App extends Component {
       alertMessage: "",
       signedIn: !!token,
       token: token,
+      signInModalOpen: false,
     }
-    this.setSignedIn  = this.setSignedIn.bind(this)
-    this.setSignedOut = this.setSignedOut.bind(this)
-    this.closeAlert   = this.closeAlert.bind(this)
-    this.alert        = this.alert.bind(this)
-    this.closeAlert   = this.closeAlert.bind(this)
+    this.setSignedIn          = this.setSignedIn.bind(this)
+    this.setSignedOut         = this.setSignedOut.bind(this)
+    this.closeAlert           = this.closeAlert.bind(this)
+    this.alert                = this.alert.bind(this)
+    this.closeAlert           = this.closeAlert.bind(this)
+    this.openSignInModal      = this.openSignInModal.bind(this)
+    this.closeSignInModal     = this.closeSignInModal.bind(this)
+  }
+  
+  openSignInModal(){
+    this.setState({ signInModalOpen: true })
+  }
+
+  closeSignInModal(){
+    this.setState({ signInModalOpen: false })
   }
 
   alert(message){
@@ -97,7 +109,16 @@ class App extends Component {
       <MuiThemeProvider muiTheme={getMuiTheme(episodeFinderTheme)}>
         <div>
           <EpisodeFinder />
-          <LoginButton signedIn={this.state.signedIn} setSignedIn={this.setSignedIn} setSignedOut={this.setSignedOut}/>
+          <GlobalMenu
+            signedIn={this.state.signedIn}
+            openSignInModal={this.openSignInModal}
+            setSignedOut={this.setSignedOut}
+            questionMenuItems={this.questionMenuItems}/>
+          <LoginModal
+            signedIn={this.state.signedIn}
+            setSignedIn={this.setSignedIn}
+            modalOpen={this.state.signInModalOpen}
+            closeSignInModal={this.closeSignInModal}/>
           <Snackbar
            open={this.state.flashMessageActive}
            message={this.state.flashMessage}
