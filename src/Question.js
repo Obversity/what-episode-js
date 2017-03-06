@@ -14,12 +14,12 @@ const style = {
   margin: 5,
   nextQuestion: {
     position: "absolute",
-    right: -50,
+    right: -40,
     top: 11,
   },
   previousQuestion: {
     position: "absolute",
-    left: -57,
+    left: -40,
     top: 11,
   },
   no: {
